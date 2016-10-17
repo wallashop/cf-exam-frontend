@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Frontend</title>
+  <script type='text/javascript' src='jquery.min.js'></script>
+<script>
+$.ajax({
+	type: "GET",
+	contentType: 'application/json',
+	dataType: 'json',
+	url: 'main.php?get=consul',
+	success: function(data) {
+		services = data;
+		//$("#here").html(JSON.stringify(data));
+		for(i in data) {
+			if(i == "consul") {continue;}
+			getService(i)
+		}
+	}
+});
+
+function getService(name) {
+	$.ajax({
+        type: "GET",
+        contentType: 'application/json',
+        dataType: 'json',
+        url: 'main.php?get=service&name='+name,
+        success: function(data) {
+                console.log(data);
+		$("#here").append("<br>" + data[0].ServiceName + " - " + data[0].ServiceAddress + " : " + data[0].ServicePort);
+		getBackend(data[0].ServiceAddress, data[0].ServicePort);
+		}
+	});
+}
+
+function getBackend(addr, port) {
+	$.ajax({
+        type: "GET",
+        url: 'main.php?get=backend&ip='+addr+'&port='+port,
+        success: function(data) {
+		var bjson = JSON.parse(data);
+                console.log(bjson);
+                $("#here").append("<br>" + JSON.stringify(bjson));
+		}
+        });
+}
+</script>
+</head>
+<body>
+<br>
+<div id="here"></div>
+</body>
+</html>
