@@ -11,6 +11,8 @@ RUN rm -Rf /etc/nginx/nginx.conf
 ADD nginx.conf /etc/nginx/nginx.conf
 RUN rm -Rf /usr/share/nginx/html/*
 ADD app.conf /etc/nginx/conf.d/app.conf
+ADD example.key /etc/nginx/example.key
+ADD example.crt /etc/nginx/example.crt
 ADD supervisord.conf /etc/supervisord.conf
 ADD main.php /usr/share/nginx/html/main.php
 ADD index.html /usr/share/nginx/html/index.html
