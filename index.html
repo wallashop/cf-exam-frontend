@@ -14,8 +14,8 @@ $.ajax({
         success: function(data) {
                 services = data;
                 for(i in data) {
-			$("#here").append("<br>" + JSON.stringify(data));
-			getBackend(i["Service"].Address, i["Service"].Port)
+			$("#here").append("<br>" + services[i]["Service"].ID);
+			getBackend(services[i]["Service"].Address, services[i]["Service"].Port)
                 }
         }
 });
