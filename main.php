@@ -16,6 +16,12 @@ if( isset($_GET['get']) && !empty($_GET['get']) ) {
                 echo $r[3];
 	}
 
+	if ($get == "services") {
+                $cmd = "curl http://consul:8500/v1/health/service/backend?passing";
+                exec("$cmd 2> /dev/null 2>&1 ", $r);
+                echo $r[3];
+        }
+
 	if ($get == "service") {
 		$name = $_GET["name"];
                 $cmd = "curl http://consul:8500/v1/catalog/service/$name";

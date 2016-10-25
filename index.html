@@ -7,33 +7,18 @@
   <script type='text/javascript' src='jquery.min.js'></script>
 <script>
 $.ajax({
-	type: "GET",
-	contentType: 'application/json',
-	dataType: 'json',
-	url: 'main.php?get=consul',
-	success: function(data) {
-		services = data;
-		//$("#here").html(JSON.stringify(data));
-		for(i in data) {
-			if(i == "consul") {continue;}
-			getService(i)
-		}
-	}
-});
-
-function getService(name) {
-	$.ajax({
         type: "GET",
         contentType: 'application/json',
         dataType: 'json',
-        url: 'main.php?get=service&name='+name,
+        url: 'main.php?get=services',
         success: function(data) {
-                console.log(data);
-		$("#here").append("<br>" + data[0].ServiceName + " - " + data[0].ServiceAddress + " : " + data[0].ServicePort);
-		getBackend(data[0].ServiceAddress, data[0].ServicePort);
-		}
-	});
-}
+                services = data;
+                for(i in data) {
+			$("#here").append("<br>" + JSON.stringify(data));
+			getBackend(i["Service"].Address, i["Service"].Port)
+                }
+        }
+});
 
 function getBackend(addr, port) {
 	$.ajax({
